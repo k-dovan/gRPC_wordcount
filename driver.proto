@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package wordcount;
+
+import "google/protobuf/empty.proto";
+
+service DriverService {
+    rpc RequestTask (google.protobuf.Empty) returns (TaskInfo) {}
+
+    rpc FinishMap (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+
+    rpc FinishReduce (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
+
+enum TaskType {
+    Map = 0;
+    Reduce = 1;
+    NoOp = 2;
+    ShutDown = 3;
+}
+
+message TaskInfo {
+    TaskType type = 1;
+    uint32 id = 2;
+    uint32 M = 3;                    // number of reduce tasks
+    repeated string filenames = 4;   // name of data files to map
+}
